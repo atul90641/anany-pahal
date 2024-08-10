@@ -12,14 +12,6 @@ const PORT = 5000;
 app.use(bodyParser.json());
 app.use(cors());
 
-
-// app.use(cors({
-//   origin: "https://anany-pahal-client-p10lnno9e-atul-kumars-projects-f7e0bb27.vercel.app/", // Replace with your actual Vercel client URL
-//   credentials: true
-// }));
-
-
-
 const razorpay = new Razorpay({
   key_id: process.env.RAZORPAY_KEY_ID,
   key_secret: process.env.RAZORPAY_KEY_SECRET
@@ -36,7 +28,7 @@ app.post('/create-order', async (req, res) => {
   }
 
   const options = {
-    amount: amount, // amount in the smallest currency unit (paise for INR)
+    amount: amount * 100, // amount in the smallest currency unit (paise for INR)
     currency,
     receipt
   };
