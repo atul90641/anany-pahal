@@ -105,7 +105,7 @@ const Donate = () => {
     const paymentData = {
       ...paymentDetails,
       name: name,
-      amount: amount // Ensure amount is in paise
+      amount: amount 
     };
 
     try {
