@@ -8,11 +8,11 @@ const Donate = () => {
   const [order, setOrder] = useState(null);
   const [razorpayKey, setRazorpayKey] = useState('');
   const [paymentSuccess, setPaymentSuccess] = useState(false);
-
+  const url = 'https://anany-pahal-server.vercel.app';
   useEffect(() => {
     const fetchKey = async () => {
       try {
-        const { data } = await axios.get('https://anany-pahal-server.vercel.app/get-razorpay-key');
+        const { data } = await axios.get(`${url}/get-razorpay-key`);
         setRazorpayKey(data.key);
       } catch (error) {
         console.error('');
@@ -50,7 +50,7 @@ const Donate = () => {
     };
 
     try {
-      const response = await axios.post('https://anany-pahal-server.vercel.app/create-order', orderData);
+      const response = await axios.post(`${url}/create-order`, orderData);
       setOrder(response.data);
       redirectToPayment(response.data);
     } catch (error) {
@@ -72,7 +72,7 @@ const Donate = () => {
       description: 'Test Transaction',
       image: 'https://example.com/your_logo',
       order_id: orderData.id,
-      callback_url: 'https://anany-pahal-server.vercel.app/payment-callback',
+      callback_url: `${url}/payment-callback`,
       prefill: {
         name: name,
         email: 'example@example.com',
@@ -110,7 +110,7 @@ const Donate = () => {
 
     try {
       console.log('Sending payment details to server:', paymentData);
-      const response = await axios.post('https://anany-pahal-server.vercel.app/store-payment-details', paymentData);
+      const response = await axios.post(`${url}/store-payment-details`, paymentData);
       console.log('Payment details stored:', response.data);
     } catch (error) {
       console.error('Error storing payment details:', error);

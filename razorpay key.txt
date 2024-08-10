@@ -1,0 +1,11 @@
+curl -X POST https://api.razorpay.com/v1/orders 
+-U [rzp_test_fEqZF47pgIQrkC]:[0OToREdKDwBy5nRehqhz1OYD]
+-H 'content-type:application/json'
+-d '{
+    "amount": 500,
+    "currency": "INR",
+    "receipt": "qwsaq1"
+}'
+
+0OToREdKDwBy5nRehqhz1OYD
+rzp_test_fEqZF47pgIQrkC
