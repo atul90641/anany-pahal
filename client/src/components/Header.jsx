@@ -48,7 +48,7 @@ const Header = () => {
                                 <ul className="navigation clearfix">
                                     <li className={current[0]} onClick={() => { setCurrent(['current', '', '', '', '']) }}><Link to="/">Home</Link></li>
                                     <li className={current[1]} onClick={() => { setCurrent(['', 'current', '', '', '']) }}><Link to="about">About Us</Link></li>
-                                    <li className={current[2]} onClick={() => { setCurrent(['', '', 'current', '', '']) }}><Link to="gallary">Gallery</Link></li>
+                                    <li className={current[2]} onClick={() => { setCurrent(['', '', 'current', '', '']) }}><Link to="gallery">Gallery</Link></li>
                                     <li className={current[3]} onClick={() => { setCurrent(['', '', '', 'current', '']) }}><Link to="contact">Contact</Link></li>
                                     <li className={current[4]} onClick={() => { setCurrent(['', '', '', '', 'current']) }}><Link to="donate">Donate</Link></li>
                                 </ul>
