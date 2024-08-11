@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-const Gallary = () => {
+const Gallery = () => {
     return (
         <>
             <section className="page-title" style={{ backgroundImage: "url(bg2.jpg)" }}>
@@ -370,4 +370,4 @@ const Gallary = () => {
     )
 }
 
-export default Gallary
+export default Gallery

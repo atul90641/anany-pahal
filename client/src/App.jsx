@@ -1,10 +1,10 @@
 import React from 'react'
-import { Routes, Route, BrowserRouter as Router } from 'react-router-dom'
+import { Routes, Route, BrowserRouter as Router, Navigate } from 'react-router-dom'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import Home from './Pages/Home'
 import About_Us from './Pages/About_Us'
-import Gallary from './Pages/Gallary'
+import Gallery from './Pages/Gallery'
 import Contact from './Pages/Contact'
 import Donate from './Pages/Donate'
 
