@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Payments from './Payments';
+import DonationForm from './DonationForm';
 
 const Donate = () => {
   const [name, setName] = useState('');
@@ -43,7 +44,7 @@ const Donate = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const orderData = {
-      amount: amount , // Convert amount to paise
+      amount: amount, // Convert amount to paise
       currency: 'INR',
       receipt: 'order_rcptid_11',
       name: name
@@ -89,7 +90,7 @@ const Donate = () => {
         setPaymentSuccess(true);
       },
       modal: {
-        ondismiss: function() {
+        ondismiss: function () {
           if (!paymentSuccess) {
             alert('Payment was not completed');
           }
@@ -105,7 +106,7 @@ const Donate = () => {
     const paymentData = {
       ...paymentDetails,
       name: name,
-      amount: amount 
+      amount: amount
     };
 
     try {
@@ -141,7 +142,13 @@ const Donate = () => {
             <div>Processing payment...</div>
           )
         ) : (
-          <div className="thank-you-message">Thank you for your donation!<br/> <br/><br/><br/>Your contribution is changing lives for the better.</div>
+          <>
+            <div className="thank-you-message">Thank you for your donation!<br /> <br /><br /><br />Your contribution is changing lives for the better.</div>
+            <div className="donation-form-wrapper">
+            <DonationForm />
+          </div>
+          </>
+
         )}
       </div>
       <div>

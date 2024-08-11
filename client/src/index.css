@@ -15269,7 +15269,8 @@ li {
   font-size: 48px;
   text-align: center;
   z-index: 9999;
-  animation: celebration 1s ease-in-out, fadeOut 4s ease-in-out 5s forwards;
+  pointer-events: none;
+  animation: celebration 0.5s ease-in-out, fadeOut 2s ease-in-out 2.5s forwards; /* Reduced durations */
 }
 
 /* Confetti animation */
@@ -15291,7 +15292,7 @@ li {
   top: 10%;
   left: 10%;
   font-size: 100px;
-  animation: float 6s ease-in-out infinite;
+  animation: float 1.5s ease-in-out infinite; /* Reduced duration */
 }
 
 .thank-you-message:after {
@@ -15300,11 +15301,17 @@ li {
   bottom: 10%;
   right: 10%;
   font-size: 100px;
-  animation: float 6s ease-in-out infinite;
+  animation: float 1.5s ease-in-out infinite; /* Reduced duration */
 }
 
 @keyframes float {
   0% { transform: translateY(0); }
   50% { transform: translateY(-10px); }
   100% { transform: translateY(0); }
+}
+
+/* Ensure the form is interactive */
+.donation-form-container {
+  position: relative;
+  z-index: 5; /* Lower than the thank you message but high enough for interaction */
 }
