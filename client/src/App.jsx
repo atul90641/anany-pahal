@@ -16,9 +16,11 @@ const App = () => {
       <Routes>
         <Route index element={<Home />} />
         <Route path="about" element={<About_Us />} />
-        <Route path="gallary" element={<Gallary />} />
+        <Route path="gallery" element={<Gallery />} />
         <Route path="contact" element={<Contact />} />
         <Route path="donate" element={<Donate />} />
+        {/* Fallback route for unknown paths */}
+        <Route path="*" element={<Navigate to="/" />} />
       </Routes>
       <Footer />
     </Router>
