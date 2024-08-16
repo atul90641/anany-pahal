@@ -38,7 +38,7 @@ const Footer = () => {
                                             </Link>
                                         </li>
                                         <li>
-                                            <Link to="gallary">
+                                            <Link to="gallery">
                                                 <i className="fa fa-angle-right" aria-hidden="true" />
                                                 Gallery
                                             </Link>

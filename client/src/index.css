@@ -13970,7 +13970,7 @@ li {
 
 .page-title {
   position: relative;
-  padding-top: 150px;
+  padding-top: 70px;
   padding-bottom: 35px;
   background-size: cover;
   background-position: center center;
@@ -15173,7 +15173,8 @@ li {
 .Donation {
   background-color: #f9f9f9;
   max-width: 600px;
-  margin: 100px auto; /* Center the form horizontally with auto margins */
+  margin: 0 auto; /* Center the form horizontally with auto margins */
+  
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -15318,6 +15319,251 @@ li {
 }
 
 .donationimage{
-  background-image: url("https://media.istockphoto.com/id/1353332258/photo/donation-concept-the-volunteer-giving-a-donate-box-to-the-recipient-standing-against-the-wall.jpg?s=2048x2048&w=is&k=20&c=8JFKSGTW3M-rZA3nrLPnhI0TjjQOFRgipg6df0pF7kA=");
-  object-fit: fill;
+  background-image: url("./donationimage.jpg");
+  background-size: cover;
+}
+
+.some{
+  padding: 50px;
+}
+
+.pagination-button {
+  background-color: #28a745; /* Background color of the button */
+  border: 1px solid #ccc;    /* Border color */
+  border-radius: 4px;        /* Rounded corners */
+  padding: 8px 12px;         /* Padding inside the button */
+  font-size: 16px;           /* Font size for the symbols */
+  cursor: pointer;           /* Pointer cursor on hover */
+}
+
+.pagination-button:disabled {
+  background-color: #e0e0e0; /* Disabled background color */
+  cursor: not-allowed;       /* Change cursor for disabled state */
+  color: #a0a0a0;            /* Text color for disabled state */
+}
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+}
+
+.containers {
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+  display: flex;
+  justify-content: space-between;
+  width: auto;
+}
+
+.header-left, .header-middle {
+  display: flex;
+  align-items: center;
+}
+
+.header-right {
+  margin-left: auto;
+}
+
+.sign-in-button {
+  width: 100px;
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.sign-in-button:hover {
+  background-color: #0056b3;
+}
+
+
+/* Main container for the QueriesList */
+.queries-list-container {
+  margin: 20px auto;
+  max-width: 1000px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+/* Table styles */
+.queries-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.queries-table thead {
+  background-color: #007bff;
+  color: white;
+}
+
+.queries-table th, 
+.queries-table td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.queries-table th {
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+/* Stripe rows for better readability */
+.queries-table tbody tr:nth-child(odd) {
+  background-color: #f1f1f1;
+}
+
+/* Hover effect */
+.queries-table tbody tr:hover {
+  background-color: #e9ecef;
+  cursor: pointer;
+}
+
+/* Responsive table */
+@media (max-width: 768px) {
+  .queries-table th,
+  .queries-table td {
+    padding: 8px 10px;
+  }
+  
+  .queries-list-container {
+    padding: 15px;
+  }
+}
+
+/* Loading and empty states */
+.loading,
+.no-queries {
+  text-align: center;
+  font-size: 18px;
+  color: #666;
+  margin: 20px 0;
+}
+
+/* Responsive header and table */
+@media (max-width: 600px) {
+  .queries-table thead {
+    display: none;
+  }
+
+  .queries-table tbody tr {
+    display: block;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    background-color: white;
+  }
+
+  .queries-table tbody tr td {
+    display: block;
+    text-align: right;
+    font-size: 14px;
+    padding: 10px 0;
+  }
+
+  .queries-table tbody tr td::before {
+    content: attr(data-label);
+    float: left;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+}
+textarea {
+  resize: none; /* Disable resizing */
+  width: 100%; /* Optional: Make it responsive */
+}
+/* General Button Styling */
+button {
+  display: inline-block;
+  padding: 10px 20px; /* Vertical and horizontal padding */
+  font-size: 16px; /* Font size */
+  font-weight: bold; /* Font weight */
+  color: #fff; /* Text color */
+  background-color: #007bff; /* Background color */
+  border: none; /* Remove default border */
+  border-radius: 5px; /* Rounded corners */
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: background-color 0.3s, box-shadow 0.3s; /* Smooth transition for hover effects */
+}
+
+/* Button Hover Effect */
+button:hover {
+  background-color: #0056b3; /* Darker background on hover */
+}
+
+/* Button Disabled Styling */
+button:disabled {
+  background-color: #6c757d; /* Grey background for disabled button */
+  cursor: not-allowed; /* Not-allowed cursor for disabled state */
+  opacity: 0.65; /* Reduced opacity for disabled state */
+}
+
+/* Button Focus Effect */
+button:focus {
+  outline: none; /* Remove default outline */
+  box-shadow: 0 0 0 3px rgba(38, 143, 255, 0.5); /* Add custom focus shadow */
+}
+
+.sign-in-container {
+  max-width: 400px;
+  margin: 0 auto;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.sign-in-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.error-message {
+  color: red;
+  margin-bottom: 15px;
+}
+
+button {
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  background-color: #28a745;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #218838;
+}
+
+button:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
 }

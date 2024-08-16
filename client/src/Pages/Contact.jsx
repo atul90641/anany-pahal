@@ -1,7 +1,63 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import supabase from '../utils/supabaseClient'; // Ensure you have supabaseClient configured
+import Footer2 from '../components/Footer2';
 const Contact = () => {
+    // State to hold form values
+    const [formData, setFormData] = useState({
+        name: '',
+        email: '',
+        phone: '',
+        message: ''
+    });
+
+    // State to handle form submission status
+    const [status, setStatus] = useState('');
+
+    // Handle input changes
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({
+            ...formData,
+            [name]: value
+        });
+    };
+
+    // Handle form submission
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            // Insert data into Supabase table
+            const { data, error } = await supabase
+                .from('queries')
+                .insert([
+                    {
+                        name: formData.name,
+                        email: formData.email,
+                        mobile: formData.phone,
+                        message: formData.message,
+                        resolved: 'pending' // Default value for new entries
+                    }
+                ]);
+
+            if (error) {
+                throw new Error(error.message);
+            }
+
+            // Clear form data after successful submission
+            setFormData({
+                name: '',
+                email: '',
+                phone: '',
+                message: ''
+            });
+            setStatus('Success! Your message has been sent.');
+        } catch (error) {
+            console.error('Error submitting form:', error);
+            setStatus('Failed to send message. Please try again.');
+        }
+    };
+
     return (
         <>
             <section className="page-title" style={{ backgroundImage: "url(bg2.jpg)" }}>
@@ -54,20 +110,36 @@ const Contact = () => {
                                 </h3>
                             </div>
                             <div className="default-form-area">
-                                <form name="myForm" method="post" className="default-form">
+                                <form name="myForm" method="post" className="default-form" onSubmit={handleSubmit}>
                                     <div className="row">
                                         <div className="col-md-6 col-sm-12 col-xs-12">
                                             <div className="form-group">
-                                                <input type="text" placeholder="Name *" name="name" />
+                                                <input
+                                                    type="text"
+                                                    placeholder="Name *"
+                                                    name="name"
+                                                    value={formData.name}
+                                                    onChange={handleChange}
+                                                    required
+                                                />
                                             </div>
                                             <div className="form-group">
-                                                <input type="text" placeholder="Email *" name="email" />
+                                                <input
+                                                    type="email"
+                                                    placeholder="Email *"
+                                                    name="email"
+                                                    value={formData.email}
+                                                    onChange={handleChange}
+                                                    required
+                                                />
                                             </div>
                                             <div className="form-group">
                                                 <input
                                                     type="text"
                                                     placeholder="Phone Number"
                                                     name="phone"
+                                                    value={formData.phone}
+                                                    onChange={handleChange}
                                                 />
                                             </div>
                                         </div>
@@ -76,17 +148,20 @@ const Contact = () => {
                                                 <textarea
                                                     placeholder="Message *"
                                                     name="message"
-                                                    defaultValue={""}
+                                                    value={formData.message}
+                                                    onChange={handleChange}
+                                                    required
                                                 />
                                             </div>
                                         </div>
                                     </div>
                                     <input
                                         type="submit"
-                                        defaultValue="Submit"
+                                        value="Submit"
                                         className="btn-style-two"
                                     />
                                 </form>
+                                {status && <p className="form-status">{status}</p>}
                             </div>
                         </div>
                     </div>
@@ -104,56 +179,9 @@ const Contact = () => {
                     />
                 </div>
             </section>
-            <section className="sponsors-subscribe">
-                <div className="container">
-                    <div className="row">
-                        <div className="col-md-6 col-sm-12 col-xs-12 right-side">
-                            <div className="section-text">
-                                <h5>Connect With Us:</h5>
-                            </div>
-                            <div className="icon-links">
-                                <a href="https://www.facebook.com/AnanyPahal/" target="_blank">
-                                    <img src="facebook.png" title="Facebook" />
-                                </a>
-                                <a href="https://www.instagram.com/anany_pahal/" target="_blank">
-                                    <img src="Instagram.png" title="Instagram" />
-                                </a>
-                                <a
-                                    href="https://twitter.com/AnanyPahal?t=2rDqHZWM3av-Bg0b1l3qzw&s=08"
-                                    target="_blank"
-                                    title="Twitter"
-                                >
-                                    <sub>
-                                        <i className="fa fa-twitter" style={{ fontSize: 20 }} />
-                                    </sub>
-                                </a>
-                                <a
-                                    href="https://www.linkedin.com/in/anany-pahal-b39a4a219"
-                                    target="_blank"
-                                    title="Linked In"
-                                >
-                                    <img src="linkedin.png" title="Linked In" />
-                                </a>
-                            </div>
-                        </div>
-                        <div className="col-md-6 col-sm-12 col-xs-12">
-                            <form name="myFormnews" method="post" className="subscribe-form">
-                                <div className="form-group">
-                                    <input
-                                        type="email"
-                                        name="email"
-                                        placeholder="Enter Your Email Address"
-                                    />
-                                    <button type="submit">Newsletter</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </section>
+            <Footer2 />
         </>
+    );
+};
 
-    )
-}
-
-export default Contact
+export default Contact;

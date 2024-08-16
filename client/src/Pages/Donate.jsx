@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Payments from './Payments';
 import DonationForm from './DonationForm';
-
+import { Link } from 'react-router-dom';
+import Footer2 from '../components/Footer2';
 const Donate = () => {
   const [name, setName] = useState('');
   const [amount, setAmount] = useState('');
@@ -119,42 +120,64 @@ const Donate = () => {
   };
 
   return (
-    <div className='donationimage'>
-      <div className="Donation">
-        {!paymentSuccess ? (
-          !order ? (
-            <form onSubmit={handleSubmit}>
-              <div className="form-group">
-                <label>
-                  Enter name:
-                  <input type="text" value={name} onChange={handleChangeName} />
-                </label>
-              </div>
-              <div className="form-group">
-                <label>
-                  Enter amount:
-                  <input type="number" value={amount} onChange={handleChangeAmount} />
-                </label>
-              </div>
-              <button type="submit">Make Donation</button>
-            </form>
-          ) : (
-            <div>Processing payment...</div>
-          )
-        ) : (
-          <>
-            <div className="thank-you-message">Thank you for your donation!<br /> <br /><br /><br />Your contribution is changing lives for the better.</div>
-            <div className="donation-form-wrapper">
-            <DonationForm />
+    <>
+      <section className="page-title" style={{ backgroundImage: "url(bg2.jpg)" }}>
+        <div className="container">
+          <div className="title-text clearfix">
+            <h1>Donate</h1>
+            <ul className="title-menu">
+              <li>
+                <Link to="/">home</Link>
+                <i className="fa fa-angle-right" aria-hidden="true" />
+              </li>
+              <li>Donate</li>
+            </ul>
           </div>
-          </>
+        </div>
+      </section>
 
-        )}
-      </div>
-      <div>
-        <Payments />
-      </div>
-    </div>
+      <section className='donationimage'>
+        <div className='some'>
+          <div className="Donation">
+            {!paymentSuccess ? (
+              !order ? (
+                <form onSubmit={handleSubmit}>
+                  <div className="form-group">
+                    <label>
+                      Enter name:
+                      <input type="text" value={name} onChange={handleChangeName} />
+                    </label>
+                  </div>
+                  <div className="form-group">
+                    <label>
+                      Enter amount:
+                      <input type="number" value={amount} onChange={handleChangeAmount} />
+                    </label>
+                  </div>
+                  <button type="submit">Make Donation</button>
+                </form>
+              ) : (
+                <div>Processing payment...</div>
+              )
+            ) : (
+              <>
+                <div className="thank-you-message">Thank you for your donation!<br /> <br /><br /><br />Your contribution is changing lives for the better.</div>
+                <div className="donation-form-wrapper">
+                  <DonationForm />
+                </div>
+              </>
+
+            )}
+          </div>
+          
+        </div>
+        <div className='some'>
+            <Payments />
+          </div>
+      </section>
+
+      <Footer2 />
+    </>
   );
 };
 

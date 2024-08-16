@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import supabase from './supabaseClient';
+import supabase from '../utils/supabaseClient';
 import './../Payments.css';
 
 const Payments = () => {
@@ -21,7 +21,7 @@ const Payments = () => {
           .range((currentPage - 1) * paymentsPerPage, currentPage * paymentsPerPage - 1);
 
         if (error) throw error;
-        
+
         // Update hasMore based on fetched data
         if (data.length < paymentsPerPage) {
           setHasMore(false); // No more payments to fetch
@@ -62,8 +62,12 @@ const Payments = () => {
         ))}
       </ul>
       <div className="pagination-controls">
-        <button onClick={prevPage} className="pagination-button" disabled={currentPage === 1}>Previous</button>
-        <button onClick={nextPage} className="pagination-button" disabled={!hasMore}>Next</button>
+        <button onClick={prevPage} className="pagination-button" disabled={currentPage === 1}>
+          &lt; {/* Represents the "<" symbol */}
+        </button>
+        <button onClick={nextPage} className="pagination-button" disabled={!hasMore}>
+          &gt; {/* Represents the ">" symbol */}
+        </button>
       </div>
     </div>
   );

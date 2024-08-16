@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import supabase from './supabaseClient'; // Adjust the path accordingly
+import supabase from '../utils/supabaseClient'; // Adjust the path accordingly
 import emailjs from 'emailjs-com';
 import { jsPDF } from 'jspdf';
 
@@ -80,6 +80,7 @@ const Receipt = ({ formData }) => {
         emailjs.send('service_85q6s9j', 'template_bdj4drq', templateParams, '6MgSXLdVK0DRq8I7D')
             .then((response) => {
                 console.log('SUCCESS!', response.status, response.text);
+                alert('Receipt has been sent to your email address.');
             }, (err) => {
                 console.error('FAILED...', err);
             });

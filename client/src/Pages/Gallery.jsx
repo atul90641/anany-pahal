@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import Footer2 from '../components/Footer2'
 
 const Gallery = () => {
     return (
@@ -319,53 +319,7 @@ const Gallery = () => {
                     </div>
                 </div>
             </section>
-            <section className="sponsors-subscribe">
-                <div className="container">
-                    <div className="row">
-                        <div className="col-md-6 col-sm-12 col-xs-12 right-side">
-                            <div className="section-text">
-                                <h5>Connect With Us:</h5>
-                            </div>
-                            <div className="icon-links">
-                                <a href="https://www.facebook.com/AnanyPahal/" target="_blank">
-                                    <img src="facebook.png" title="Facebook" />
-                                </a>
-                                <a href="https://www.instagram.com/anany_pahal/" target="_blank">
-                                    <img src="Instagram.png" title="Instagram" />
-                                </a>
-                                <a
-                                    href="https://twitter.com/AnanyPahal?t=2rDqHZWM3av-Bg0b1l3qzw&s=08"
-                                    target="_blank"
-                                    title="Twitter"
-                                >
-                                    <sub>
-                                        <i className="fa fa-twitter" style={{ fontSize: 20 }} />
-                                    </sub>
-                                </a>
-                                <a
-                                    href="https://www.linkedin.com/in/anany-pahal-b39a4a219"
-                                    target="_blank"
-                                    title="Linked In"
-                                >
-                                    <img src="linkedin.png" title="Linked In" />
-                                </a>
-                            </div>
-                        </div>
-                        <div className="col-md-6 col-sm-12 col-xs-12">
-                            <form name="myFormnews" method="post" className="subscribe-form">
-                                <div className="form-group">
-                                    <input
-                                        type="email"
-                                        name="email"
-                                        placeholder="Enter Your Email Address"
-                                    />
-                                    <button type="submit">Newsletter</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </section>
+            <Footer2 />
         </>
     )
 }
