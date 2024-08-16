@@ -119,7 +119,7 @@ const Donate = () => {
   };
 
   return (
-    <div>
+    <div className='donationimage'>
       <div className="Donation">
         {!paymentSuccess ? (
           !order ? (
