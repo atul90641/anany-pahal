@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import supabase from './supabaseClient'; // Adjust the path accordingly
+import emailjs from 'emailjs-com';
+import { jsPDF } from 'jspdf';
 
 const Receipt = ({ formData }) => {
     const [paymentData, setPaymentData] = useState({ id: 0, name: '', amount: 0, date: '' });
@@ -32,8 +34,12 @@ const Receipt = ({ formData }) => {
         fetchPaymentData();
     }, [formData.paymentId]);
 
+    const handleReload = () => {
+        window.location.reload();
+    };
 
-    const handlePrint = () => {
+
+    const handlePrint = (e) => {
         const printWindow = window.open('', '', 'height=600,width=800');
         printWindow.document.write('<html><head><title>Receipt</title>');
         printWindow.document.write('<link rel="stylesheet" type="text/css" href="print.css">'); // Ensure this path is correct
@@ -42,7 +48,41 @@ const Receipt = ({ formData }) => {
         printWindow.document.write('</body></html>');
         printWindow.document.close();
         printWindow.focus();
+
+        // Add an event listener for the 'afterprint' event
+        printWindow.onafterprint = function () {
+            printWindow.close();
+        };
+
+        // Trigger print dialog
         printWindow.print();
+
+
+        e.preventDefault();
+
+        const templateParams = {
+            to_name: paymentData.name,
+            user_email: formData.email,  // Ensure this is the recipient's email
+            donation_date: paymentData.date,
+            receipt_no: paymentData.id,
+            donor_name: paymentData.name,
+            donor_address: formData.address,
+            id_number: formData.idNumber,
+            id_type: formData.idType,
+            donor_email: formData.email,
+            donor_mobile: formData.mobile,
+            donor_whatsapp: formData.whatsapp,
+            donation_amount: paymentData.amount,
+            donation_amount_words: convertAmountToWords(paymentData.amount),
+
+        };
+
+        emailjs.send('service_85q6s9j', 'template_bdj4drq', templateParams, '6MgSXLdVK0DRq8I7D')
+            .then((response) => {
+                console.log('SUCCESS!', response.status, response.text);
+            }, (err) => {
+                console.error('FAILED...', err);
+            });
     };
 
     return (
@@ -111,7 +151,7 @@ const Receipt = ({ formData }) => {
                 </div>
             </div>
 
-            <div style={{ marginRight:'60%',marginTop: '20px', fontSize: '12px' }}>
+            <div style={{ marginRight: '60%', marginTop: '20px', fontSize: '12px' }}>
                 <p><strong>Terms & Conditions</strong></p>
                 <ol>
                     <li>Cheque/DD is Subject to realisation</li>
@@ -126,9 +166,37 @@ const Receipt = ({ formData }) => {
                 </div>
             </div>
 
-            <button onClick={handlePrint} style={{ marginTop: '20px', padding: '10px 20px', backgroundColor: '#007bff', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>
-                Print Receipt
-            </button>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px' }}>
+                <button
+                    onClick={handlePrint}
+                    style={{
+                        width: '200px',
+                        padding: '10px 20px',
+                        backgroundColor: '#28a745', /* Green color */
+                        color: '#fff',
+                        border: 'none',
+                        borderRadius: '5px',
+                        cursor: 'pointer',
+                        textAlign: 'center' /* Align text to the center for better look */
+                    }}>
+                    Print Receipt
+                </button>
+                <button
+                    onClick={handleReload}
+                    style={{
+                        width: '200px',
+                        padding: '10px 20px',
+                        backgroundColor: '#007bff', /* Blue color */
+                        color: '#fff',
+                        border: 'none',
+                        borderRadius: '5px',
+                        cursor: 'pointer',
+                        textAlign: 'center' /* Align text to the center for better look */
+                    }}>
+                    Finish
+                </button>
+            </div>
+
         </div>
     );
 };
