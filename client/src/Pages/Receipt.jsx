@@ -40,51 +40,59 @@ const Receipt = ({ formData }) => {
 
 
     const handlePrint = (e) => {
+        e.preventDefault();
+    
+        // Open a new window for printing
         const printWindow = window.open('', '', 'height=600,width=800');
+    
         printWindow.document.write('<html><head><title>Receipt</title>');
-        printWindow.document.write('<link rel="stylesheet" type="text/css" href="print.css">'); // Ensure this path is correct
-        printWindow.document.write('</head><body >');
+        printWindow.document.write('<link rel="stylesheet" type="text/css" href="print.css">'); // Adjust the path if necessary
+        printWindow.document.write('</head><body>');
         printWindow.document.write(document.querySelector('.printable').innerHTML);
         printWindow.document.write('</body></html>');
         printWindow.document.close();
         printWindow.focus();
-
-        // Add an event listener for the 'afterprint' event
+    
+        // Wait until the window is loaded before printing
+        printWindow.onload = function () {
+            setTimeout(() => {
+                printWindow.print();
+            }, 500); // Small delay to ensure document has fully loaded
+        };
+    
+        // Close window after print dialog
         printWindow.onafterprint = function () {
             printWindow.close();
         };
-
-        // Trigger print dialog
-        printWindow.print();
-
-
-        e.preventDefault();
-
-        const templateParams = {
-            to_name: paymentData.name,
-            user_email: formData.email,  // Ensure this is the recipient's email
-            donation_date: paymentData.date,
-            receipt_no: paymentData.id,
-            donor_name: paymentData.name,
-            donor_address: formData.address,
-            id_number: formData.idNumber,
-            id_type: formData.idType,
-            donor_email: formData.email,
-            donor_mobile: formData.mobile,
-            donor_whatsapp: formData.whatsapp,
-            donation_amount: paymentData.amount,
-            donation_amount_words: convertAmountToWords(paymentData.amount),
-
-        };
-
-        emailjs.send('service_85q6s9j', 'template_bdj4drq', templateParams, '6MgSXLdVK0DRq8I7D')
-            .then((response) => {
-                console.log('SUCCESS!', response.status, response.text);
-                alert('Receipt has been sent to your email address.');
-            }, (err) => {
-                console.error('FAILED...', err);
-            });
+    
+        // Send the email after print
+        setTimeout(() => {
+            const templateParams = {
+                to_name: paymentData.name,
+                user_email: formData.email,  
+                donation_date: paymentData.date,
+                receipt_no: paymentData.id,
+                donor_name: paymentData.name,
+                donor_address: formData.address,
+                id_number: formData.idNumber,
+                id_type: formData.idType,
+                donor_email: formData.email,
+                donor_mobile: formData.mobile,
+                donor_whatsapp: formData.whatsapp,
+                donation_amount: paymentData.amount,
+                donation_amount_words: convertAmountToWords(paymentData.amount),
+            };
+    
+            emailjs.send('service_85q6s9j', 'template_bdj4drq', templateParams, '6MgSXLdVK0DRq8I7D')
+                .then((response) => {
+                    console.log('SUCCESS!', response.status, response.text);
+                    alert('Receipt has been sent to your email address.');
+                }, (err) => {
+                    console.error('FAILED...', err);
+                });
+        }, 3000); // Delay to ensure print dialog completes
     };
+    
 
     return (
         <div className="printable" >
