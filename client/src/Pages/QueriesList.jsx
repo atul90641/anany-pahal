@@ -43,7 +43,7 @@ const QueriesList = () => {
         }));
     };
 
-    const handleSubmit = async (e, queryId, email,name) => {
+    const handleSubmit = async (e, queryId, email, name) => {
         e.preventDefault();
         const message = messages[queryId]; // Get the message from the state
         // Logic to send a message to the query's email
@@ -53,8 +53,10 @@ const QueriesList = () => {
             message: message,
 
         };
-
-        emailjs.send('service_85q6s9j', 'template_lyu99vk', templateParams, '6MgSXLdVK0DRq8I7D')
+        const service_id = import.meta.env.VITE_SERVICE_ID_QUERY;
+        const template_id = import.meta.env.VITE_TEMPLATE_ID_QUERY;
+        const user_id = import.meta.env.VITE_USER_ID;
+        emailjs.send(service_id, template_id, templateParams, user_id)
             .then((response) => {
                 console.log('SUCCESS!', response.status, response.text);
                 alert('Receipt has been sent to your email address.');
@@ -139,7 +141,7 @@ const QueriesList = () => {
                             {formStates[query.id] && (
                                 <tr>
                                     <td colSpan="7">
-                                        <form onSubmit={(e) => handleSubmit(e, query.id, query.email,query.name)}>
+                                        <form onSubmit={(e) => handleSubmit(e, query.id, query.email, query.name)}>
                                             <h4>Send a Message to {query.name}</h4>
                                             <textarea
                                                 required

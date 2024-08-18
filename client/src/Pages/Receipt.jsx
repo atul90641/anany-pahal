@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import supabase from '../utils/supabaseClient'; // Adjust the path accordingly
 import emailjs from 'emailjs-com';
-import { jsPDF } from 'jspdf';
 
 const Receipt = ({ formData }) => {
     const [paymentData, setPaymentData] = useState({ id: 0, name: '', amount: 0, date: '' });
-
+    const [notification, setNotification] = useState(null);
     useEffect(() => {
         const fetchPaymentData = async () => {
             const { data, error } = await supabase
@@ -82,15 +81,18 @@ const Receipt = ({ formData }) => {
                 donation_amount: paymentData.amount,
                 donation_amount_words: convertAmountToWords(paymentData.amount),
             };
-    
-            emailjs.send('service_85q6s9j', 'template_bdj4drq', templateParams, '6MgSXLdVK0DRq8I7D')
+            const service_id = import.meta.env.VITE_SERVICE_ID_DONATION;
+            const template_id = import.meta.env.VITE_TEMPLATE_ID_DONATION;
+            const user_id = import.meta.env.VITE_USER_ID;
+            emailjs.send(service_id, template_id, templateParams, user_id)
                 .then((response) => {
                     console.log('SUCCESS!', response.status, response.text);
-                    alert('Receipt has been sent to your email address.');
+                    setNotification('Receipt has been sent to your email address.');
+                    setTimeout(() => setNotification(null), 10000);
                 }, (err) => {
                     console.error('FAILED...', err);
                 });
-        }, 3000); // Delay to ensure print dialog completes
+        }, 500); // Delay to ensure print dialog completes
     };
     
 
@@ -190,6 +192,12 @@ const Receipt = ({ formData }) => {
                     }}>
                     Print Receipt
                 </button>
+                {/* Notification */}
+            {notification && (
+                <div className="notification">
+                    {notification}
+                </div>
+            )}
                 <button
                     onClick={handleReload}
                     style={{
