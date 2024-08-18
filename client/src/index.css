@@ -15319,7 +15319,7 @@ li {
 }
 
 .donationimage{
-  background-image: url("./donationimage.jpg");
+  background-image: url("/donationimage.jpg");
   background-size: cover;
 }
 
