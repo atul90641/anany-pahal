@@ -56,10 +56,10 @@ const QueriesList = () => {
         const service_id = import.meta.env.VITE_SERVICE_ID_QUERY;
         const template_id = import.meta.env.VITE_TEMPLATE_ID_QUERY;
         const user_id = import.meta.env.VITE_USER_ID;
-        emailjs.send(service_id, template_id, templateParams, user_id)
+        await emailjs.send(service_id, template_id, templateParams, user_id)
             .then((response) => {
                 console.log('SUCCESS!', response.status, response.text);
-                alert('Receipt has been sent to your email address.');
+                console.log('Message has been sent to your email address.');
             }, (err) => {
                 console.error('FAILED...', err);
             });
