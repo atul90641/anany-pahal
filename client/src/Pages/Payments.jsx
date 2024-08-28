@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import supabase from '../utils/supabaseClient';
 import './../Payments.css';
 
 const Payments = () => {
@@ -14,27 +14,22 @@ const Payments = () => {
   useEffect(() => {
     const fetchPayments = async () => {
       try {
-        const response = await axios.get('https://anany-pahal-server.vercel.app/api/payments', {
-          params: {
-            page: currentPage,
-            perPage: paymentsPerPage
-          }
-        });
+        const { data, error } = await supabase
+          .from('payments')
+          .select('id, name, amount')
+          .order('created_at', { ascending: false })
+          .range((currentPage - 1) * paymentsPerPage, currentPage * paymentsPerPage - 1);
 
-        if (response.status === 200) {
-          const data = response.data;
+        if (error) throw error;
 
-          // Update hasMore based on fetched data
-          if (data.length < paymentsPerPage) {
-            setHasMore(false); // No more payments to fetch
-          } else {
-            setHasMore(true); // There might be more payments to fetch
-          }
-
-          setPayments(data);
+        // Update hasMore based on fetched data
+        if (data.length < paymentsPerPage) {
+          setHasMore(false); // No more payments to fetch
         } else {
-          throw new Error('Failed to fetch payments');
+          setHasMore(true); // There might be more payments to fetch
         }
+
+        setPayments(data);
       } catch (error) {
         setError(error.message);
       } finally {

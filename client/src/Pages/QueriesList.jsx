@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import supabase from '../utils/supabaseClient';
 import emailjs from 'emailjs-com';
 
 const QueriesList = () => {
@@ -7,15 +7,21 @@ const QueriesList = () => {
     const [loading, setLoading] = useState(true);
     const [formStates, setFormStates] = useState({}); // Store form open state for each query
     const [messages, setMessages] = useState({});
-    const [error, setError] = useState(null);
     useEffect(() => {
         const fetchQueries = async () => {
             try {
-                const response = await axios.get('https://anany-pahal-server.vercel.app/api/queries');
-                setQueries(response.data);
+                const { data, error } = await supabase
+                    .from('queries')
+                    .select('id, name, email, mobile, message, resolved')
+                    .order('id');
+
+                if (error) {
+                    console.error('Error fetching data:', error);
+                } else {
+                    setQueries(data);
+                }
             } catch (error) {
                 console.error('Error fetching data:', error);
-                setError('An error occurred while fetching data.');
             } finally {
                 setLoading(false);
             }
@@ -59,28 +65,25 @@ const QueriesList = () => {
             });
         alert(`Message sent to ${email}`);
 
-        
+        // Update the query status to "resolved" in the Supabase database
         try {
-            const response = await axios.post('https://anany-pahal-server.vercel.app/api/update-query', {
-                queryId,
-                message
-            });
+            const { error } = await supabase
+                .from('queries')
+                .update({ resolved: 'resolved', action: message })
+                .match({ id: queryId });
 
-            if (response.status === 200) {
-                // Close the form after successful submission
-                setFormStates((prevStates) => ({
-                    ...prevStates,
-                    [queryId]: false,
-                }));
-            } else {
-                throw new Error(response.data.error || 'Failed to update query status.');
+            if (error) {
+                throw new Error(error.message);
             }
+
+            // Close the form after submission
+            setFormStates((prevStates) => ({
+                ...prevStates,
+                [queryId]: false,
+            }));
         } catch (error) {
             console.error('Error updating query status:', error);
-            setError('Failed to update query status. Please try again.');
             alert('Failed to update query status. Please try again.');
-        } finally {
-            setLoading(false);
         }
         window.location.reload();
     };

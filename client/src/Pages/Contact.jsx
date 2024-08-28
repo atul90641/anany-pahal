@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import supabase from '../utils/supabaseClient'; // Ensure you have supabaseClient configured
 import Footer2 from '../components/Footer2';
 const Contact = () => {
     // State to hold form values
@@ -27,29 +27,31 @@ const Contact = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
+            // Insert data into Supabase table
+            const { data, error } = await supabase
+                .from('queries')
+                .insert([
+                    {
+                        name: formData.name,
+                        email: formData.email,
+                        mobile: formData.phone,
+                        message: formData.message,
+                        resolved: 'pending' // Default value for new entries
+                    }
+                ]);
 
-            const response = await axios.post('https://anany-pahal-server.vercel.app/api/create-query', {
-                name: formData.name,
-                email: formData.email,
-                mobile: formData.phone,
-                message: formData.message
-            });
-
-            if (response.status === 200) {
-                console.log('Query created successfully:', response.data);
-                // Clear form data after successful submission
-                setFormData({
-                    name: '',
-                    email: '',
-                    phone: '',
-                    message: ''
-                });
-                setStatus('Success! Your message has been sent.');
-            } else {
-                throw new Error(response.data.error || 'Failed to create query');
+            if (error) {
+                throw new Error(error.message);
             }
 
-
+            // Clear form data after successful submission
+            setFormData({
+                name: '',
+                email: '',
+                phone: '',
+                message: ''
+            });
+            setStatus('Success! Your message has been sent.');
         } catch (error) {
             console.error('Error submitting form:', error);
             setStatus('Failed to send message. Please try again.');

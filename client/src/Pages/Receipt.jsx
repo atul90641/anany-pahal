@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import supabase from '../utils/supabaseClient'; // Adjust the path accordingly
 import emailjs from 'emailjs-com';
 
 const Receipt = ({ formData }) => {
@@ -7,24 +7,28 @@ const Receipt = ({ formData }) => {
     const [notification, setNotification] = useState(null);
     useEffect(() => {
         const fetchPaymentData = async () => {
-            try {
-                const response = await axios.get('https://anany-pahal-server.vercel.app/api/latest-payment');
-                if (response.status === 200) {
-                    const payment = response.data;
-                    setPaymentData({
-                        id: payment.id,
-                        name: payment.name,
-                        amount: payment.amount,
-                        date: payment.date, // Already formatted date
-                    });
-                } else {
-                    console.error('No payment data found');
-                }
-            } catch (error) {
+            const { data, error } = await supabase
+                .from('payments')
+                .select('id, name, amount, created_at')
+                .order('created_at', { ascending: false })
+                .limit(1);
+
+            if (error) {
                 console.error('Error fetching payment data:', error);
+            } else if (data.length > 0) {
+                const payment = data[0];
+                setPaymentData({
+                    id: payment.id,
+                    name: payment.name,
+                    amount: payment.amount,
+                    date: new Date(payment.created_at).toLocaleDateString('en-GB', {
+                        day: '2-digit',
+                        month: '2-digit',
+                        year: 'numeric',
+                    }) // Format the date as needed
+                });
             }
         };
-        
 
         fetchPaymentData();
     }, [formData.paymentId]);
