@@ -10,7 +10,7 @@ const Donate = () => {
   const [order, setOrder] = useState(null);
   const [razorpayKey, setRazorpayKey] = useState('');
   const [paymentSuccess, setPaymentSuccess] = useState(false);
-  const url = 'https://anany-pahal-server.vercel.app';
+  const url = 'http://localhost:5000';
   useEffect(() => {
     const fetchKey = async () => {
       try {

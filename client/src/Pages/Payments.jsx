@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import supabase from '../utils/supabaseClient';
+import axios from 'axios';
 import './../Payments.css';
 
 const Payments = () => {
@@ -14,22 +14,27 @@ const Payments = () => {
   useEffect(() => {
     const fetchPayments = async () => {
       try {
-        const { data, error } = await supabase
-          .from('payments')
-          .select('id, name, amount')
-          .order('created_at', { ascending: false })
-          .range((currentPage - 1) * paymentsPerPage, currentPage * paymentsPerPage - 1);
+        const response = await axios.get('http://localhost:5000/api/payments', {
+          params: {
+            page: currentPage,
+            perPage: paymentsPerPage
+          }
+        });
 
-        if (error) throw error;
+        if (response.status === 200) {
+          const data = response.data;
 
-        // Update hasMore based on fetched data
-        if (data.length < paymentsPerPage) {
-          setHasMore(false); // No more payments to fetch
+          // Update hasMore based on fetched data
+          if (data.length < paymentsPerPage) {
+            setHasMore(false); // No more payments to fetch
+          } else {
+            setHasMore(true); // There might be more payments to fetch
+          }
+
+          setPayments(data);
         } else {
-          setHasMore(true); // There might be more payments to fetch
+          throw new Error('Failed to fetch payments');
         }
-
-        setPayments(data);
       } catch (error) {
         setError(error.message);
       } finally {

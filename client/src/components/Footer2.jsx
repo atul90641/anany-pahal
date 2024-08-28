@@ -1,37 +1,45 @@
 import React, { useState } from 'react';
-import supabase from '../utils/supabaseClient'; // Ensure this path is correct
+import axios from 'axios';
 
 const Footer2 = () => {
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
-
+  const url = 'http://localhost:5000';
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
     setSuccess(null);
-
+  
     try {
-      // Insert email into the subscribers table
-      const { error } = await supabase
-        .from('subscribers')
-        .insert([{ email }]);
-
-      if (error) {
-        throw error;
+      const response = await axios.post(`${url}/api/subscribe`, { email });
+      console.log('Server response:', response);
+  
+      if (response.status === 200) {
+        setSuccess('Thank you for subscribing! Future updates will be shared with you by email');
+        setEmail(''); // Clear the input field after successful submission
+      } else {
+        throw new Error('Failed to subscribe');
       }
-
-      setSuccess('Thank you for subscribing! Future updates will be shared with you by email');
-      setEmail(''); // Clear the input field after successful submission
     } catch (error) {
-      setError('An error occurred. Please try again.');
-      console.error('Error inserting email:', error);
+      if(error.response.status === 409){
+        setError('This email is already subscribed.');
+      }
+      else{
+        setError('An error occurred. Please try again.');
+        console.error('Error inserting email:', error);
+      }
+      
     } finally {
       setLoading(false);
     }
   };
+  
+  
+  
+
 
   return (
     <section className="sponsors-subscribe">
