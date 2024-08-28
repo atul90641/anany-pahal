@@ -11,7 +11,7 @@ const QueriesList = () => {
     useEffect(() => {
         const fetchQueries = async () => {
             try {
-                const response = await axios.get('https://anany-pahal-client.vercel.app/api/queries');
+                const response = await axios.get('https://anany-pahal-server.vercel.app/api/queries');
                 setQueries(response.data);
             } catch (error) {
                 console.error('Error fetching data:', error);
