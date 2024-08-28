@@ -61,7 +61,7 @@ const QueriesList = () => {
 
         
         try {
-            const response = await axios.post('https://anany-pahal-client.vercel.app/api/update-query', {
+            const response = await axios.post('https://anany-pahal-server.vercel.app/api/update-query', {
                 queryId,
                 message
             });

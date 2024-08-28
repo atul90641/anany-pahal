@@ -8,7 +8,7 @@ const Receipt = ({ formData }) => {
     useEffect(() => {
         const fetchPaymentData = async () => {
             try {
-                const response = await axios.get('https://anany-pahal-client.vercel.app/api/latest-payment');
+                const response = await axios.get('https://anany-pahal-server.vercel.app/api/latest-payment');
                 if (response.status === 200) {
                     const payment = response.data;
                     setPaymentData({
