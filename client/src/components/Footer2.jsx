@@ -6,7 +6,7 @@ const Footer2 = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
-  const url = 'http://localhost:5000';
+  const url = 'https://anany-pahal-client.vercel.app';
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);

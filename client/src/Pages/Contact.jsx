@@ -28,7 +28,7 @@ const Contact = () => {
         e.preventDefault();
         try {
 
-            const response = await axios.post('http://localhost:5000/api/create-query', {
+            const response = await axios.post('https://anany-pahal-client.vercel.app/api/create-query', {
                 name: formData.name,
                 email: formData.email,
                 mobile: formData.phone,

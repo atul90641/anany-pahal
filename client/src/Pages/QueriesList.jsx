@@ -11,7 +11,7 @@ const QueriesList = () => {
     useEffect(() => {
         const fetchQueries = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/api/queries');
+                const response = await axios.get('https://anany-pahal-client.vercel.app/api/queries');
                 setQueries(response.data);
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -61,7 +61,7 @@ const QueriesList = () => {
 
         
         try {
-            const response = await axios.post('http://localhost:5000/api/update-query', {
+            const response = await axios.post('https://anany-pahal-client.vercel.app/api/update-query', {
                 queryId,
                 message
             });

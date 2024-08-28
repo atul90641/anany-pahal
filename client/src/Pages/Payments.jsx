@@ -14,7 +14,7 @@ const Payments = () => {
   useEffect(() => {
     const fetchPayments = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/payments', {
+        const response = await axios.get('https://anany-pahal-client.vercel.app/api/payments', {
           params: {
             page: currentPage,
             perPage: paymentsPerPage
